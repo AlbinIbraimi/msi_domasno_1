@@ -79,7 +79,8 @@ class _RegisterState extends State<Register> {
                       children: [
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFF55C4D1)),
+                              backgroundColor: Color(0xFF55C4D1),
+                              minimumSize: Size(100, 40)),
                           onPressed: () async {
                             await register(authService);
                           },

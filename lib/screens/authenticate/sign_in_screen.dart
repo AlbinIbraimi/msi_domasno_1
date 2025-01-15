@@ -72,7 +72,8 @@ class _SignInState extends State<SignIn> {
                       children: [
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFF55C4D1)),
+                              backgroundColor: Color(0xFF55C4D1),
+                              minimumSize: Size(100, 40)),
                           onPressed: () async {
                             await signIn(authService);
                           },
@@ -86,7 +87,8 @@ class _SignInState extends State<SignIn> {
                         const SizedBox(width: 10),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFF55C4D1)),
+                              backgroundColor: Color(0xFF55C4D1),
+                              minimumSize: Size(100, 40)),
                           onPressed: () async {
                             authService.toggleSignIn();
                           },
