@@ -77,7 +77,7 @@ class _SignInState extends State<SignIn> {
                             await signIn(authService);
                           },
                           child: const Text(
-                            'Sign In',
+                            'Login',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),

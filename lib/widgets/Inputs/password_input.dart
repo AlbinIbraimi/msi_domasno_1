@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 class PasswordInputField extends StatelessWidget {
   final TextEditingController controller;
-  const PasswordInputField({super.key, required this.controller});
+  final String placeholder;
+  const PasswordInputField(
+      {super.key, required this.controller, this.placeholder = "Password"});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class PasswordInputField extends StatelessWidget {
         obscureText: true,
         controller: controller,
         decoration: InputDecoration(
-          hintText: "Password",
+          hintText: placeholder,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide.none,
