@@ -13,7 +13,7 @@ class Wrapper extends StatelessWidget {
     final authService = context.watch<AuthServiceProvider>();
 
     return Scaffold(
-      appBar: const MyAppBar(),
+      appBar: authService.user == null ? null : MyAppBar(),
       body: authService.user == null ? const Authenticate() : const Home(),
     );
   }
