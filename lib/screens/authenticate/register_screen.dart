@@ -1,4 +1,5 @@
 import 'package:domasna_1/providers/auth_provider.dart';
+import 'package:domasna_1/widgets/Buttons/default_buttons.dart';
 import 'package:domasna_1/widgets/Inputs/email_input.dart';
 import 'package:domasna_1/widgets/Inputs/password_input.dart';
 import 'package:flutter/material.dart';
@@ -77,20 +78,11 @@ class _RegisterState extends State<Register> {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFF55C4D1),
-                              minimumSize: Size(100, 40)),
-                          onPressed: () async {
-                            await register(authService);
-                          },
-                          child: const Text(
-                            'Register',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
+                        DefaultButton(
+                            onPressed: () async {
+                              await register(authService);
+                            },
+                            text: "Register"),
                         const SizedBox(height: 10),
                         GestureDetector(
                           onTap: () => {

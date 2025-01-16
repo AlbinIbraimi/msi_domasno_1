@@ -1,6 +1,7 @@
 import 'package:domasna_1/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class AuthServiceProvider extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -17,7 +18,11 @@ class AuthServiceProvider extends ChangeNotifier {
   }
 
   MyUser _userFromFirebase(User? user) {
-    return MyUser(user?.uid ?? "", user?.email ?? "");
+    return MyUser(
+        user?.uid ?? "",
+        user?.email ?? "",
+        DateFormat('yyyy-MM-dd')
+            .format(user?.metadata.creationTime ?? DateTime.now()));
   }
 
   Future<MyUser?> signInAnno() async {
@@ -39,6 +44,15 @@ class AuthServiceProvider extends ChangeNotifier {
     await _auth.signOut();
     _user = null;
     notifyListeners();
+  }
+
+  Future<void> deleteAccount() async {
+    var currentUser = _auth.currentUser;
+    if (currentUser != null) {
+      await _auth.currentUser?.delete();
+      _user = null;
+      notifyListeners();
+    }
   }
 
   Future<MyUser?> signInWithEmailPassword(String email, String password) async {

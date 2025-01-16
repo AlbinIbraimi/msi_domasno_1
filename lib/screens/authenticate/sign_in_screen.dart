@@ -1,4 +1,5 @@
 import 'package:domasna_1/providers/auth_provider.dart';
+import 'package:domasna_1/widgets/Buttons/default_buttons.dart';
 import 'package:domasna_1/widgets/Inputs/email_input.dart';
 import 'package:domasna_1/widgets/Inputs/password_input.dart';
 import 'package:flutter/material.dart';
@@ -25,11 +26,7 @@ class _SignInState extends State<SignIn> {
         password,
       );
 
-      if (user != null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Login Successful!')),
-        );
-      } else {
+      if (user == null) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Login Failed!')),
         );
@@ -70,35 +67,15 @@ class _SignInState extends State<SignIn> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFF55C4D1),
-                              minimumSize: Size(100, 40)),
-                          onPressed: () async {
-                            await signIn(authService);
-                          },
-                          child: const Text(
-                            'Login',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
+                        DefaultButton(
+                            onPressed: () async {
+                              await signIn(authService);
+                            },
+                            text: "Login"),
                         const SizedBox(width: 10),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFF55C4D1),
-                              minimumSize: Size(100, 40)),
-                          onPressed: () async {
-                            authService.toggleSignIn();
-                          },
-                          child: const Text(
-                            'Register',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
+                        DefaultButton(
+                            onPressed: () => {authService.toggleSignIn()},
+                            text: "Register")
                       ],
                     ),
                   ],
