@@ -6,23 +6,15 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.green,
+      backgroundColor: Color(0xFF2B4962),
       title: const Text(
-        "181171",
+        "SpiceBook",
+        style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+            fontSize: 25,
+            letterSpacing: 1),
       ),
-      // actions: [
-      //   if (authProvider.showSignIn == false)
-      //     IconButton(
-      //       icon: const Icon(Icons.login),
-      //       onPressed: () {
-      //         authProvider.toggleSignIn();
-      //       },
-      //     ),
-      //   if (authProvider.user != null)
-      //     IconButton(
-      //         onPressed: () => {Navigator.pushNamed(context, '/calendar')},
-      //         icon: const Icon(Icons.event)),
-      // ],
     );
   }
 
