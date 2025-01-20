@@ -1,5 +1,6 @@
-import 'package:domasna_1/models/meal.dart';
 import 'package:domasna_1/providers/app_provider.dart';
+import 'package:domasna_1/widgets/cards/category_chip.dart';
+import 'package:domasna_1/widgets/cards/meal_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,21 +12,17 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<dynamic> meals = [];
-
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ApplicationProvider>().fetchMeals();
+      context.read<ApplicationProvider>().fetchData();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<ApplicationProvider>(context);
-    meals = provider.meals;
-
     return Scaffold(
       backgroundColor: Colors.blue[50],
       body: SingleChildScrollView(
@@ -89,18 +86,9 @@ class _HomeState extends State<Home> {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: [
-                    CategoryChip(label: 'Vegetarian'),
-                    SizedBox(width: 8),
-                    CategoryChip(label: 'Dinner'),
-                    SizedBox(width: 8),
-                    CategoryChip(label: 'Lunch'),
-                    SizedBox(width: 8),
-                    CategoryChip(label: 'Breakfast'),
-                    SizedBox(width: 8),
-                    CategoryChip(label: 'Snacks'),
-                  ],
-                ),
+                    children: provider.cateogries
+                        .map((item) => CategoryChip(label: item))
+                        .toList()),
               ),
 
               const SizedBox(height: 24),
@@ -114,12 +102,12 @@ class _HomeState extends State<Home> {
                 ),
               ),
               const SizedBox(height: 16),
-              meals.isEmpty
+              provider.meals.isEmpty
                   ? const Center(child: CircularProgressIndicator())
                   : SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                        children: meals
+                        children: provider.meals
                             .map((elemt) => MealCard(item: elemt))
                             .toList(),
                       ),
@@ -129,110 +117,5 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
-  }
-}
-
-class CategoryChip extends StatelessWidget {
-  final String label;
-
-  const CategoryChip({super.key, required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Chip(
-      label: Text(
-        label,
-        style: const TextStyle(fontWeight: FontWeight.bold),
-      ),
-      backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
-    );
-  }
-}
-
-class MealCard extends StatelessWidget {
-  final Meal item;
-
-  const MealCard({
-    super.key,
-    required this.item,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: InkWell(
-            splashColor: Colors.blue.withAlpha(30),
-            onTap: () => {},
-            child: SizedBox(
-              width: 180,
-              height: 180,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  ClipRRect(
-                    borderRadius:
-                        const BorderRadius.vertical(top: Radius.circular(16)),
-                    child: Image.network(
-                      item.image,
-                      height: 100,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          item.name,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.flash_on, color: Colors.grey, size: 16),
-                            const SizedBox(width: 4),
-                            Text('${item.calories} Cal'),
-                            const SizedBox(width: 16),
-                            Icon(Icons.access_time,
-                                color: Colors.grey, size: 16),
-                            const SizedBox(width: 4),
-                            Text('${item.time} Min'),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.star,
-                              color: const Color.fromARGB(255, 220, 198, 4),
-                              size: 16,
-                            ),
-                            SizedBox(
-                              width: 4,
-                            ),
-                            Text('${item.rating} / 5')
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            )));
   }
 }

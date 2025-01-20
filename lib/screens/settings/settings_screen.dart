@@ -1,5 +1,5 @@
 import 'package:domasna_1/providers/auth_provider.dart';
-import 'package:domasna_1/widgets/Buttons/default_buttons.dart';
+import 'package:domasna_1/widgets/buttons/default_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

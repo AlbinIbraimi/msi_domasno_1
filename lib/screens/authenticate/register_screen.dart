@@ -1,7 +1,7 @@
 import 'package:domasna_1/providers/auth_provider.dart';
-import 'package:domasna_1/widgets/Buttons/default_buttons.dart';
-import 'package:domasna_1/widgets/Inputs/email_input.dart';
-import 'package:domasna_1/widgets/Inputs/password_input.dart';
+import 'package:domasna_1/widgets/buttons/default_buttons.dart';
+import 'package:domasna_1/widgets/inputs/email_input.dart';
+import 'package:domasna_1/widgets/inputs/password_input.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
