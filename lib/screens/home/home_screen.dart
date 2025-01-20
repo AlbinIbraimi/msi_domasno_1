@@ -116,26 +116,13 @@ class _HomeState extends State<Home> {
               const SizedBox(height: 16),
               meals.isEmpty
                   ? const Center(child: CircularProgressIndicator())
-                  : GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 16,
-                        mainAxisSpacing: 16,
-                        childAspectRatio: 3 / 2,
+                  : SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: meals
+                            .map((elemt) => MealCard(item: elemt))
+                            .toList(),
                       ),
-                      itemCount: meals.length,
-                      itemBuilder: (context, index) {
-                        final meal = meals[index] as Meal;
-                        return MealCard(
-                          title: meal.name,
-                          imageUrl: meal.image,
-                          calories: meal.calories,
-                          time: meal.time,
-                        );
-                      },
                     ),
             ],
           ),
@@ -166,55 +153,86 @@ class CategoryChip extends StatelessWidget {
 }
 
 class MealCard extends StatelessWidget {
-  final String title;
-  final String imageUrl;
-  final int calories;
-  final int time;
+  final Meal item;
 
   const MealCard({
     super.key,
-    required this.title,
-    required this.imageUrl,
-    required this.calories,
-    required this.time,
+    required this.item,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-            child: Image.network(
-              imageUrl,
-              height: 100,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: InkWell(
+            splashColor: Colors.blue.withAlpha(30),
+            onTap: () => {},
+            child: SizedBox(
+              width: 180,
+              height: 180,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  ClipRRect(
+                    borderRadius:
+                        const BorderRadius.vertical(top: Radius.circular(16)),
+                    child: Image.network(
+                      item.image,
+                      height: 100,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 4),
-                Text('$calories Cal - $time Min'),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          item.name,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.flash_on, color: Colors.grey, size: 16),
+                            const SizedBox(width: 4),
+                            Text('${item.calories} Cal'),
+                            const SizedBox(width: 16),
+                            Icon(Icons.access_time,
+                                color: Colors.grey, size: 16),
+                            const SizedBox(width: 4),
+                            Text('${item.time} Min'),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.star,
+                              color: const Color.fromARGB(255, 220, 198, 4),
+                              size: 16,
+                            ),
+                            SizedBox(
+                              width: 4,
+                            ),
+                            Text('${item.rating} / 5')
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )));
   }
 }

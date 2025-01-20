@@ -8,8 +8,8 @@ class Meal {
   final int time;
 
   Meal({
-    this.id = "asd123",
-    this.name = "Test name",
+    this.id = "1",
+    this.name = "Pizza Italiana",
     this.category = "Pizza",
     this.image = "",
     this.calories = 100,
@@ -23,7 +23,7 @@ class Meal {
   }
 
   Meal.fromJson(Map<String, dynamic> data)
-      : id = data['Document_ID'],
+      : id = data['id'],
         name = data['name'],
         category = data['category'],
         image = data['image'],
