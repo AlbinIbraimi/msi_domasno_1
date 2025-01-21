@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:domasna_1/providers/app_provider.dart';
 import 'package:domasna_1/widgets/cards/category_chip.dart';
 import 'package:domasna_1/widgets/cards/meal_card.dart';
@@ -55,7 +57,14 @@ class _HomeState extends State<Home> {
                         ),
                         SizedBox(height: 16),
                         ElevatedButton(
-                          onPressed: () => {},
+                          onPressed: () {
+                            var random = Random();
+                            var index =
+                                random.nextInt(provider.cateogries.length);
+                            var radnomCategory = provider.cateogries[index];
+                            Navigator.pushNamed(context, '/cateegory',
+                                arguments: radnomCategory);
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,
                             foregroundColor: Colors.black,
