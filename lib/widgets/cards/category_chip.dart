@@ -11,7 +11,8 @@ class CategoryChip extends StatelessWidget {
         padding: const EdgeInsets.all(5),
         child: InkWell(
             radius: 100,
-            onTap: () => {},
+            onTap: () =>
+                {Navigator.pushNamed(context, '/cateegory', arguments: label)},
             child: Chip(
               label: Text(
                 label,

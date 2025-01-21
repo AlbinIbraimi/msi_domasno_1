@@ -7,9 +7,31 @@ class ApplicationProvider extends ChangeNotifier {
 
   final List<Meal> _meals = [];
   final List<String> _cateogries = [];
+  final List<Meal> _mealsForCateogry = [];
+  final List<Meal> _favoriteMeals = [];
 
   List<Meal> get meals => _meals;
+  List<Meal> get mealsforCateogry => _mealsForCateogry;
+  List<Meal> get favoriteMeals => _favoriteMeals;
+
   List<String> get cateogries => _cateogries;
+
+  toggleFavorite(Meal item) {
+    final index = _meals.indexWhere((meal) => meal.id == item.id);
+    if (index == -1) {
+      return;
+    }
+
+    _meals[index].favorite = !item.favorite;
+    try {
+      _store.collection('Meals').doc(item.id).update({
+        'favorite': item.favorite,
+      });
+    } catch (e) {
+      debugPrint('Error fetching data: $e');
+    }
+    notifyListeners();
+  }
 
   Future<void> fetchData() async {
     try {
@@ -31,16 +53,37 @@ class ApplicationProvider extends ChangeNotifier {
     }
   }
 
-  toggleFavorite(Meal item) {
-    final index = _meals.indexWhere((meal) => meal.id == item.id);
-    if (index != -1) {
-      _meals[index].favorite = !item.favorite;
-    }
+  Future<void> fetchCategoryMeals(String category) async {
     try {
-      _store.collection('Meals').doc(item.id).update({
-        'favorite': item.favorite,
-      });
-    } catch (e) {}
-    notifyListeners();
+      _mealsForCateogry.clear();
+      final querySnapshot = await _store
+          .collection('Meals')
+          .where('category', isEqualTo: category)
+          .get();
+
+      for (var doc in querySnapshot.docs) {
+        _mealsForCateogry.add(Meal.fromJson(doc.data(), doc.id));
+      }
+      notifyListeners();
+    } catch (e) {
+      debugPrint('Error fetching data: $e');
+    }
+  }
+
+  Future<void> fetchFavoriteMelas() async {
+    try {
+      _favoriteMeals.clear();
+      final querySnapshot = await _store
+          .collection('Meals')
+          .where('favorite', isEqualTo: true)
+          .get();
+
+      for (var doc in querySnapshot.docs) {
+        _favoriteMeals.add(Meal.fromJson(doc.data(), doc.id));
+      }
+      notifyListeners();
+    } catch (e) {
+      debugPrint('Error fetching data: $e');
+    }
   }
 }

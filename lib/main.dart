@@ -1,6 +1,7 @@
 import 'package:domasna_1/firebase_options.dart';
 import 'package:domasna_1/providers/app_provider.dart';
 import 'package:domasna_1/providers/auth_provider.dart';
+import 'package:domasna_1/screens/category/category_meals.dart';
 import 'package:domasna_1/screens/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,10 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: "/",
-      routes: {'/': (context) => const Wrapper()},
+      routes: {
+        '/': (context) => const Wrapper(),
+        '/cateegory': (context) => const CategoryMeals()
+      },
     );
   }
 }
