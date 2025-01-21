@@ -12,13 +12,16 @@ class CategoryMeals extends StatefulWidget {
 
 class _CategoryMealsState extends State<CategoryMeals> {
   String category = "";
+  bool inProgress = true;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (category.isNotEmpty) {
-        context.read<ApplicationProvider>().fetchCategoryMeals(category);
+        var storage = context.read<ApplicationProvider>();
+        storage.mealsforCateogry.clear();
+        storage.fetchCategoryMeals(category).then((_) => {inProgress = false});
       }
     });
   }
@@ -32,6 +35,8 @@ class _CategoryMealsState extends State<CategoryMeals> {
     final storage = Provider.of<ApplicationProvider>(context);
 
     return Scaffold(
-        body: MealGrid(title: category, meals: storage.mealsforCateogry));
+        body: inProgress
+            ? const Center(child: CircularProgressIndicator())
+            : MealGrid(title: category, meals: storage.mealsforCateogry));
   }
 }

@@ -21,15 +21,18 @@ class ApplicationProvider extends ChangeNotifier {
     if (index == -1) {
       return;
     }
-
-    _meals[index].favorite = !item.favorite;
+    final newValue = !item.favorite;
+    item.favorite = newValue;
+    _meals[index].favorite = newValue;
     try {
       _store.collection('Meals').doc(item.id).update({
-        'favorite': item.favorite,
+        'favorite': newValue,
       });
+      _favoriteMeals.remove(item);
     } catch (e) {
       debugPrint('Error fetching data: $e');
     }
+
     notifyListeners();
   }
 

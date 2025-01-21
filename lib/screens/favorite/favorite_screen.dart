@@ -11,17 +11,23 @@ class Favorite extends StatefulWidget {
 }
 
 class _FavoriteState extends State<Favorite> {
+  bool inProgress = true;
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ApplicationProvider>().fetchFavoriteMelas();
+      var storage = context.read<ApplicationProvider>();
+      storage.favoriteMeals.clear();
+      storage.fetchFavoriteMelas().then((_) => {inProgress = false});
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final storage = Provider.of<ApplicationProvider>(context);
-    return MealGrid(title: "FavoriteMeals", meals: storage.favoriteMeals);
+    return Container(
+        child: inProgress
+            ? const Center(child: CircularProgressIndicator())
+            : MealGrid(title: "FavoriteMeals", meals: storage.favoriteMeals));
   }
 }
