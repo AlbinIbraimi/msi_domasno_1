@@ -4,30 +4,33 @@ class Meal {
   final String category;
   final String image;
   final int calories;
-  final double rating;
+  final int rating;
   final int time;
+  bool favorite;
 
   Meal({
-    this.id = "1",
+    this.id = "",
     this.name = "Pizza Italiana",
     this.category = "Pizza",
     this.image = "",
     this.calories = 100,
     this.rating = 10,
     this.time = 15,
+    this.favorite = false,
   });
 
   @override
   String toString() {
-    return 'Meal(name: $name, category: $category, image: $image, calories: $calories, rating: $rating, time: $time)';
+    return 'Meal(id:$id, name: $name, category: $category, image: $image, calories: $calories, rating: $rating, time: $time, favorite: $favorite)';
   }
 
-  Meal.fromJson(Map<String, dynamic> data)
-      : id = data['id'],
+  Meal.fromJson(Map<String, dynamic> data, String id)
+      : id = id,
         name = data['name'],
         category = data['category'],
         image = data['image'],
         calories = data['calories'],
         rating = data['rating'],
-        time = data['time'];
+        time = data['time'],
+        favorite = data['favorite'];
 }

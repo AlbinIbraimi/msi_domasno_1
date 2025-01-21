@@ -1,7 +1,9 @@
 import 'package:domasna_1/models/meal.dart';
+import 'package:domasna_1/providers/app_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class MealCard extends StatelessWidget {
+class MealCard extends StatefulWidget {
   final Meal item;
 
   const MealCard({
@@ -10,7 +12,13 @@ class MealCard extends StatelessWidget {
   });
 
   @override
+  State<MealCard> createState() => _MealCardState();
+}
+
+class _MealCardState extends State<MealCard> {
+  @override
   Widget build(BuildContext context) {
+    final storage = Provider.of<ApplicationProvider>(context);
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
@@ -30,7 +38,7 @@ class MealCard extends StatelessWidget {
                     borderRadius:
                         const BorderRadius.vertical(top: Radius.circular(16)),
                     child: Image.network(
-                      item.image,
+                      widget.item.image,
                       height: 100,
                       width: double.infinity,
                       fit: BoxFit.cover,
@@ -46,7 +54,7 @@ class MealCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          item.name,
+                          widget.item.name,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
@@ -58,12 +66,12 @@ class MealCard extends StatelessWidget {
                             const Icon(Icons.flash_on,
                                 color: Colors.grey, size: 16),
                             const SizedBox(width: 4),
-                            Text('${item.calories} Cal'),
+                            Text('${widget.item.calories} Cal'),
                             const SizedBox(width: 16),
                             const Icon(Icons.access_time,
                                 color: Colors.grey, size: 16),
                             const SizedBox(width: 4),
-                            Text('${item.time} Min'),
+                            Text('${widget.item.time} Min'),
                           ],
                         ),
                         Row(
@@ -75,7 +83,7 @@ class MealCard extends StatelessWidget {
                               size: 16,
                             ),
                             const SizedBox(width: 4),
-                            Text('${item.rating} / 5')
+                            Text('${widget.item.rating} / 5')
                           ],
                         ),
                       ],
@@ -101,11 +109,11 @@ class MealCard extends StatelessWidget {
                 ],
               ),
               child: IconButton(
-                icon: const Icon(
-                  Icons.favorite_border,
-                  color: Colors.red,
+                icon: Icon(
+                  widget.item.favorite ? Icons.favorite : Icons.favorite_border,
+                  color: widget.item.favorite ? Colors.red : Colors.grey,
                 ),
-                onPressed: () {},
+                onPressed: () => {storage.toggleFavorite(widget.item)},
                 iconSize: 20,
               ),
             ),
