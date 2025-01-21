@@ -12,10 +12,12 @@ class MealCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: InkWell(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Stack(
+        children: [
+          InkWell(
             splashColor: Colors.blue.withAlpha(30),
             onTap: () => {},
             child: SizedBox(
@@ -34,7 +36,7 @@ class MealCard extends StatelessWidget {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Padding(
@@ -53,11 +55,12 @@ class MealCard extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.flash_on, color: Colors.grey, size: 16),
+                            const Icon(Icons.flash_on,
+                                color: Colors.grey, size: 16),
                             const SizedBox(width: 4),
                             Text('${item.calories} Cal'),
                             const SizedBox(width: 16),
-                            Icon(Icons.access_time,
+                            const Icon(Icons.access_time,
                                 color: Colors.grey, size: 16),
                             const SizedBox(width: 4),
                             Text('${item.time} Min'),
@@ -66,22 +69,49 @@ class MealCard extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.star,
-                              color: const Color.fromARGB(255, 220, 198, 4),
+                              color: Color.fromARGB(255, 220, 198, 4),
                               size: 16,
                             ),
-                            SizedBox(
-                              width: 4,
-                            ),
+                            const SizedBox(width: 4),
                             Text('${item.rating} / 5')
                           ],
-                        )
+                        ),
                       ],
                     ),
                   ),
                 ],
               ),
-            )));
+            ),
+          ),
+          Positioned(
+            top: 8,
+            right: 8,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: IconButton(
+                icon: const Icon(
+                  Icons.favorite_border,
+                  color: Colors.red,
+                ),
+                onPressed: () {},
+                iconSize: 20,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
