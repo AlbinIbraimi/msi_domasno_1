@@ -1,5 +1,6 @@
 import 'package:domasna_1/providers/app_provider.dart';
 import 'package:domasna_1/widgets/grids/meal_grid.dart';
+import 'package:domasna_1/widgets/my_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -35,6 +36,7 @@ class _CategoryMealsState extends State<CategoryMeals> {
     final storage = Provider.of<ApplicationProvider>(context);
 
     return Scaffold(
+        appBar: MyAppBar(),
         body: inProgress
             ? const Center(child: CircularProgressIndicator())
             : MealGrid(title: category, meals: storage.mealsforCateogry));
