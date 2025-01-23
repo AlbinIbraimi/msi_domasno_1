@@ -3,6 +3,7 @@ import 'package:domasna_1/providers/app_provider.dart';
 import 'package:domasna_1/providers/auth_provider.dart';
 import 'package:domasna_1/screens/category_meals.dart';
 import 'package:domasna_1/screens/meal_details.dart';
+import 'package:domasna_1/screens/meal_receip.dart';
 import 'package:domasna_1/screens/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,7 @@ class MainApp extends StatelessWidget {
         '/': (context) => const Wrapper(),
         '/cateegory': (context) => const CategoryMeals(),
         '/detailed': (context) => const MealDetails(),
+        '/recipes': (context) => const MealRecip()
       },
     );
   }

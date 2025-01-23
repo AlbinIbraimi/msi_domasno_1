@@ -101,7 +101,10 @@ class _MealDetailsState extends State<MealDetails> {
                               Row(
                                 children: [
                                   DefaultButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.pushNamed(context, '/recipes',
+                                          arguments: item.steps);
+                                    },
                                     text: "Start Cooking",
                                   ),
                                   SizedBox(
