@@ -1,3 +1,4 @@
+import 'package:domasna_1/models/ingredient.dart';
 import 'package:domasna_1/models/meal.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,10 +10,12 @@ class ApplicationProvider extends ChangeNotifier {
   final List<String> _cateogries = [];
   final List<Meal> _mealsForCateogry = [];
   final List<Meal> _favoriteMeals = [];
+  final List<Ingredient> _ingredients = [];
 
   List<Meal> get meals => _meals;
   List<Meal> get mealsforCateogry => _mealsForCateogry;
   List<Meal> get favoriteMeals => _favoriteMeals;
+  List<Ingredient> get ingredients => _ingredients;
 
   List<String> get cateogries => _cateogries;
 
@@ -84,6 +87,25 @@ class ApplicationProvider extends ChangeNotifier {
       for (var doc in querySnapshot.docs) {
         _favoriteMeals.add(Meal.fromJson(doc.data(), doc.id));
       }
+      notifyListeners();
+    } catch (e) {
+      debugPrint('Error fetching data: $e');
+    }
+  }
+
+  Future<void> fetchIngredientsForMeal(String id) async {
+    try {
+      _ingredients.clear();
+      final querySnapshot = await _store
+          .collection('Meals')
+          .doc(id)
+          .collection('ingredients')
+          .get();
+
+      for (var doc in querySnapshot.docs) {
+        _ingredients.add(Ingredient.fromJson(doc.data(), doc.id));
+      }
+
       notifyListeners();
     } catch (e) {
       debugPrint('Error fetching data: $e');

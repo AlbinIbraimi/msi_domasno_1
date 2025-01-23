@@ -27,7 +27,9 @@ class _MealCardState extends State<MealCard> {
         children: [
           InkWell(
             splashColor: Colors.blue.withAlpha(30),
-            onTap: () => {},
+            onTap: () => {
+              Navigator.pushNamed(context, '/detailed', arguments: widget.item)
+            },
             child: SizedBox(
               width: 180,
               height: 180,
