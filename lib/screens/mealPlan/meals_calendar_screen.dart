@@ -37,7 +37,7 @@ class _MealsCalendarState extends State<MealsCalendar> {
     final eventDates = storage.mealPlan.keys
         .map((item) => MarkedDate(
               date: normalizedDate(item),
-              color: Colors.red,
+              color: Color(0xFF4C9482),
             ))
         .toList();
 
@@ -64,13 +64,14 @@ class _MealsCalendarState extends State<MealsCalendar> {
                       },
                       thisMonthDayBorderColor: Colors.transparent,
                       selectedDayButtonColor: Colors.grey,
-                      todayBorderColor: Colors.blue,
-                      todayButtonColor: Colors.blueAccent,
+                      selectedDayBorderColor: Colors.transparent,
+                      todayBorderColor: Colors.transparent,
+                      todayButtonColor: Color(0xFF2B4962),
                       multipleMarkedDates: MultipleMarkedDates(
                         markedDates: eventDates,
                       ),
                       markedDateShowIcon: true,
-                      markedDateIconMaxShown: 1,
+                      markedDateIconMaxShown: 2,
                       markedDateIconBuilder: (event) {
                         return const Icon(
                           Icons.star,
@@ -79,7 +80,7 @@ class _MealsCalendarState extends State<MealsCalendar> {
                         );
                       },
                       selectedDateTime: _selectedDate,
-                      daysHaveCircularBorder: true,
+                      daysHaveCircularBorder: false,
                     ),
                   ),
                   Padding(

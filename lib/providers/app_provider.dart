@@ -160,4 +160,30 @@ class ApplicationProvider extends ChangeNotifier {
       debugPrint('Error fetching data: $e');
     }
   }
+
+  deleteFromCalendar(Meal item) {
+    var normalizedDate =
+        DateTime(item.date.year, item.date.month, item.date.day);
+
+    if (_mealPlan.containsKey(normalizedDate) == false) {
+      return;
+    }
+
+    var mealsInDate = _mealPlan[normalizedDate];
+    final index = mealsInDate?.indexWhere((meal) => meal.id == item.id);
+    if (index == -1) {
+      return;
+    }
+    mealsInDate?[index!].isInCalendar = false;
+
+    try {
+      _store.collection('Meals').doc(item.id).update({
+        'isInCalendar': false,
+      });
+      notifyListeners();
+      _mealPlan[normalizedDate]!.remove(item);
+    } catch (e) {
+      debugPrint('Error fetching data: $e');
+    }
+  }
 }
