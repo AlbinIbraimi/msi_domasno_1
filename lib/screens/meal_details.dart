@@ -111,7 +111,21 @@ class _MealDetailsState extends State<MealDetails> {
                                     width: 5,
                                   ),
                                   ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      final DateTime? picked =
+                                          await showDatePicker(
+                                        context: context,
+                                        initialDate: item.isInCalendar
+                                            ? item.date
+                                            : DateTime.now(),
+                                        firstDate: DateTime(2000),
+                                        lastDate: DateTime(2101),
+                                      );
+
+                                      if (picked != null) {
+                                        storage.addItemToCalendar(item, picked);
+                                      }
+                                    },
                                     child: Icon(Icons.calendar_month),
                                   ),
                                 ],

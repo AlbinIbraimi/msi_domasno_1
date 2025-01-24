@@ -139,4 +139,25 @@ class ApplicationProvider extends ChangeNotifier {
       debugPrint('Error fetching data: $e');
     }
   }
+
+  addItemToCalendar(Meal item, DateTime picked) {
+    final index = _meals.indexWhere((meal) => meal.id == item.id);
+    if (index == -1) {
+      return;
+    }
+
+    try {
+      _store.collection('Meals').doc(item.id).update({
+        'date': Timestamp.fromDate(picked),
+        'isInCalendar': true,
+      });
+      item.isInCalendar = true;
+      item.date = DateTime(picked.year, picked.month, picked.day);
+      _meals[index].isInCalendar = item.isInCalendar;
+      _meals[index].date = item.date;
+      notifyListeners();
+    } catch (e) {
+      debugPrint('Error fetching data: $e');
+    }
+  }
 }
