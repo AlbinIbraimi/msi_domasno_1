@@ -1,6 +1,6 @@
 import 'package:domasna_1/screens/favorite/favorite_screen.dart';
 import 'package:domasna_1/screens/home/home_screen.dart';
-import 'package:domasna_1/screens/mealPlan/mealPlan_screen.dart';
+import 'package:domasna_1/screens/mealPlan/meals_calendar_screen.dart';
 import 'package:domasna_1/screens/settings/settings_screen.dart';
 import 'package:domasna_1/widgets/app_bottom_navigation.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +26,11 @@ class _HomeState extends State<HomeWrapper> {
     return Scaffold(
         bottomNavigationBar: AppBottomNavigation(
             currentIndex: _selectedIndex, onTap: _onItemTapped),
-        body: [Home(), Favorite(), MealPlan(), Settings()][_selectedIndex]);
+        body: [
+          Home(),
+          Favorite(),
+          MealsCalendar(),
+          Settings()
+        ][_selectedIndex]);
   }
 }

@@ -2,6 +2,7 @@ import 'package:domasna_1/firebase_options.dart';
 import 'package:domasna_1/providers/app_provider.dart';
 import 'package:domasna_1/providers/auth_provider.dart';
 import 'package:domasna_1/screens/category_meals.dart';
+import 'package:domasna_1/screens/mealPlan/planed_meals.dart';
 import 'package:domasna_1/screens/meal_details.dart';
 import 'package:domasna_1/screens/meal_receip.dart';
 import 'package:domasna_1/screens/wrapper.dart';
@@ -34,7 +35,8 @@ class MainApp extends StatelessWidget {
         '/': (context) => const Wrapper(),
         '/cateegory': (context) => const CategoryMeals(),
         '/detailed': (context) => const MealDetails(),
-        '/recipes': (context) => const MealRecip()
+        '/recipes': (context) => const MealRecip(),
+        '/planedMeals': (context) => const PlanedMeals()
       },
     );
   }

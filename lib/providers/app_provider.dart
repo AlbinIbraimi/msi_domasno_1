@@ -11,11 +11,13 @@ class ApplicationProvider extends ChangeNotifier {
   final List<Meal> _mealsForCateogry = [];
   final List<Meal> _favoriteMeals = [];
   final List<Ingredient> _ingredients = [];
+  final Map<DateTime, List<Meal>> _mealsForCalendar = {};
 
   List<Meal> get meals => _meals;
   List<Meal> get mealsforCateogry => _mealsForCateogry;
   List<Meal> get favoriteMeals => _favoriteMeals;
   List<Ingredient> get ingredients => _ingredients;
+  Map<DateTime, List<Meal>> get mealsForCalendar => _mealsForCalendar;
 
   List<String> get cateogries => _cateogries;
 
@@ -107,6 +109,30 @@ class ApplicationProvider extends ChangeNotifier {
       }
 
       notifyListeners();
+    } catch (e) {
+      debugPrint('Error fetching data: $e');
+    }
+  }
+
+  Future<void> fetchMealPlan() async {
+    _mealsForCalendar.clear();
+    try {
+      final querySnapshot = await _store
+          .collection('Meals')
+          .where('isInCalendar', isEqualTo: true)
+          .get();
+
+      for (var doc in querySnapshot.docs) {
+        var meal = Meal.fromJson(doc.data(), doc.id);
+        var normalizedDate =
+            DateTime(meal.date.year, meal.date.month, meal.date.day);
+
+        if (_mealsForCalendar.containsKey(normalizedDate)) {
+          _mealsForCalendar[normalizedDate]!.add(meal);
+        } else {
+          _mealsForCalendar[normalizedDate] = [meal];
+        }
+      }
     } catch (e) {
       debugPrint('Error fetching data: $e');
     }
