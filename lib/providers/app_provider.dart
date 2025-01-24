@@ -11,13 +11,13 @@ class ApplicationProvider extends ChangeNotifier {
   final List<Meal> _mealsForCateogry = [];
   final List<Meal> _favoriteMeals = [];
   final List<Ingredient> _ingredients = [];
-  final Map<DateTime, List<Meal>> _mealsForCalendar = {};
+  final Map<DateTime, List<Meal>> _mealPlan = {};
 
   List<Meal> get meals => _meals;
   List<Meal> get mealsforCateogry => _mealsForCateogry;
   List<Meal> get favoriteMeals => _favoriteMeals;
   List<Ingredient> get ingredients => _ingredients;
-  Map<DateTime, List<Meal>> get mealsForCalendar => _mealsForCalendar;
+  Map<DateTime, List<Meal>> get mealPlan => _mealPlan;
 
   List<String> get cateogries => _cateogries;
 
@@ -115,7 +115,7 @@ class ApplicationProvider extends ChangeNotifier {
   }
 
   Future<void> fetchMealPlan() async {
-    _mealsForCalendar.clear();
+    _mealPlan.clear();
     try {
       final querySnapshot = await _store
           .collection('Meals')
@@ -127,12 +127,14 @@ class ApplicationProvider extends ChangeNotifier {
         var normalizedDate =
             DateTime(meal.date.year, meal.date.month, meal.date.day);
 
-        if (_mealsForCalendar.containsKey(normalizedDate)) {
-          _mealsForCalendar[normalizedDate]!.add(meal);
+        if (_mealPlan.containsKey(normalizedDate)) {
+          _mealPlan[normalizedDate]!.add(meal);
         } else {
-          _mealsForCalendar[normalizedDate] = [meal];
+          _mealPlan[normalizedDate] = [meal];
         }
       }
+
+      notifyListeners();
     } catch (e) {
       debugPrint('Error fetching data: $e');
     }

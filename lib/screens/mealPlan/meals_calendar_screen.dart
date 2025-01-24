@@ -1,7 +1,6 @@
 import 'package:flutter_calendar_carousel/classes/marked_date.dart';
 import 'package:flutter_calendar_carousel/classes/multiple_marked_dates.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
-import 'package:domasna_1/models/meal.dart';
 import 'package:domasna_1/providers/app_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -16,8 +15,7 @@ class MealsCalendar extends StatefulWidget {
 
 class _MealsCalendarState extends State<MealsCalendar> {
   DateTime _selectedDate = DateTime.now();
-  Map<DateTime, List<Meal>> plan = {};
-  bool inProgress = false;
+  bool inProgress = true;
 
   DateTime normalizedDate(DateTime dateTime) {
     return DateTime(dateTime.year, dateTime.month, dateTime.day);
@@ -28,6 +26,7 @@ class _MealsCalendarState extends State<MealsCalendar> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       var storage = context.read<ApplicationProvider>();
+      storage.mealPlan.clear();
       storage.fetchMealPlan().then((_) => {inProgress = false});
     });
   }
@@ -35,10 +34,7 @@ class _MealsCalendarState extends State<MealsCalendar> {
   @override
   Widget build(BuildContext context) {
     final storage = Provider.of<ApplicationProvider>(context);
-    setState(() {
-      plan = storage.mealsForCalendar;
-    });
-    final eventDates = plan.keys
+    final eventDates = storage.mealPlan.keys
         .map((item) => MarkedDate(
               date: normalizedDate(item),
               color: Colors.red,
@@ -59,8 +55,8 @@ class _MealsCalendarState extends State<MealsCalendar> {
                           _selectedDate = date;
                           var normalized = normalizedDate(date);
 
-                          if (plan.containsKey(normalized)) {
-                            var meals = plan[normalized];
+                          if (storage.mealPlan.containsKey(normalized)) {
+                            var meals = storage.mealPlan[normalized];
                             Navigator.pushNamed(context, '/planedMeals',
                                 arguments: meals);
                           }
@@ -97,7 +93,9 @@ class _MealsCalendarState extends State<MealsCalendar> {
                         SizedBox(
                           height: 5,
                         ),
-                        plan.isEmpty ? Text("No meals in calendar") : Text("")
+                        storage.mealPlan.isEmpty
+                            ? Text("No meals in calendar")
+                            : Text("")
                       ],
                     ),
                   ),
