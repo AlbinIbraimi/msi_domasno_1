@@ -5,11 +5,8 @@ import 'package:provider/provider.dart';
 
 class MealCard extends StatefulWidget {
   final Meal item;
-
-  const MealCard({
-    super.key,
-    required this.item,
-  });
+  final bool isForMealPlan;
+  const MealCard({super.key, required this.item, this.isForMealPlan = false});
 
   @override
   State<MealCard> createState() => _MealCardState();
@@ -110,14 +107,26 @@ class _MealCardState extends State<MealCard> {
                   ),
                 ],
               ),
-              child: IconButton(
-                icon: Icon(
-                  widget.item.favorite ? Icons.favorite : Icons.favorite_border,
-                  color: widget.item.favorite ? Colors.red : Colors.grey,
-                ),
-                onPressed: () => {storage.toggleFavorite(widget.item)},
-                iconSize: 20,
-              ),
+              child: widget.isForMealPlan
+                  ? IconButton(
+                      icon: Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                      ),
+                      onPressed: () =>
+                          {storage.deleteFromCalendar(widget.item)},
+                      iconSize: 20,
+                    )
+                  : IconButton(
+                      icon: Icon(
+                        widget.item.favorite
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                        color: widget.item.favorite ? Colors.red : Colors.grey,
+                      ),
+                      onPressed: () => {storage.toggleFavorite(widget.item)},
+                      iconSize: 20,
+                    ),
             ),
           ),
         ],

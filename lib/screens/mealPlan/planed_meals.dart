@@ -21,6 +21,10 @@ class _PlanedMealsState extends State<PlanedMeals> {
 
     return Scaffold(
         appBar: MyAppBar(),
-        body: MealGrid(title: "Planeed meals for date", meals: meals));
+        body: MealGrid(
+          title: "Planeed meals for date",
+          meals: meals,
+          isForPlanedMeals: true,
+        ));
   }
 }

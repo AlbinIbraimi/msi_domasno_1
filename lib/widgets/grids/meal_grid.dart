@@ -5,7 +5,12 @@ import 'package:flutter/material.dart';
 class MealGrid extends StatelessWidget {
   final String title;
   final List<Meal> meals;
-  const MealGrid({super.key, required this.title, required this.meals});
+  final bool isForPlanedMeals;
+  const MealGrid(
+      {super.key,
+      required this.title,
+      required this.meals,
+      this.isForPlanedMeals = false});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +32,10 @@ class MealGrid extends StatelessWidget {
               itemCount: meals.length,
               itemBuilder: (context, index) {
                 final meal = meals[index];
-                return MealCard(item: meal);
+                return MealCard(
+                  item: meal,
+                  isForMealPlan: isForPlanedMeals,
+                );
               },
             ),
     );
