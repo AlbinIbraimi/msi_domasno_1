@@ -21,6 +21,35 @@ class ApplicationProvider extends ChangeNotifier {
 
   List<String> get cateogries => _cateogries;
 
+  deleteFromCalendar(Meal item) {
+    var normalizedDate =
+        DateTime(item.date.year, item.date.month, item.date.day);
+
+    if (_mealPlan.containsKey(normalizedDate) == false) {
+      return;
+    }
+
+    final index =
+        _mealPlan[normalizedDate]?.indexWhere((meal) => meal.id == item.id);
+    if (index == -1) {
+      return;
+    }
+    item.isInCalendar = false;
+
+    try {
+      _store.collection('Meals').doc(item.id).update({
+        'isInCalendar': false,
+      });
+      _mealPlan[normalizedDate]?.remove(item);
+      if (_mealPlan[normalizedDate]?.isEmpty ?? true) {
+        _mealPlan.remove(normalizedDate);
+      }
+      notifyListeners();
+    } catch (e) {
+      debugPrint('Error fetching data: $e');
+    }
+  }
+
   toggleFavorite(Meal item) {
     final index = _meals.indexWhere((meal) => meal.id == item.id);
     if (index == -1) {
@@ -156,32 +185,6 @@ class ApplicationProvider extends ChangeNotifier {
       _meals[index].isInCalendar = item.isInCalendar;
       _meals[index].date = item.date;
       notifyListeners();
-    } catch (e) {
-      debugPrint('Error fetching data: $e');
-    }
-  }
-
-  deleteFromCalendar(Meal item) {
-    var normalizedDate =
-        DateTime(item.date.year, item.date.month, item.date.day);
-
-    if (_mealPlan.containsKey(normalizedDate) == false) {
-      return;
-    }
-
-    var mealsInDate = _mealPlan[normalizedDate];
-    final index = mealsInDate?.indexWhere((meal) => meal.id == item.id);
-    if (index == -1) {
-      return;
-    }
-    mealsInDate?[index!].isInCalendar = false;
-
-    try {
-      _store.collection('Meals').doc(item.id).update({
-        'isInCalendar': false,
-      });
-      notifyListeners();
-      _mealPlan[normalizedDate]!.remove(item);
     } catch (e) {
       debugPrint('Error fetching data: $e');
     }

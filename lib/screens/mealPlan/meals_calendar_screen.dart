@@ -33,6 +33,7 @@ class _MealsCalendarState extends State<MealsCalendar> {
 
   @override
   Widget build(BuildContext context) {
+    _selectedDate = DateTime.now();
     final storage = Provider.of<ApplicationProvider>(context);
     final eventDates = storage.mealPlan.keys
         .map((item) => MarkedDate(
@@ -56,9 +57,9 @@ class _MealsCalendarState extends State<MealsCalendar> {
                           var normalized = normalizedDate(date);
 
                           if (storage.mealPlan.containsKey(normalized)) {
-                            var meals = storage.mealPlan[normalized];
+                            // var meals = storage.mealPlan[normalized];
                             Navigator.pushNamed(context, '/planedMeals',
-                                arguments: meals);
+                                arguments: normalized);
                           }
                         });
                       },
